@@ -48,7 +48,6 @@ def play_game(boardsize, objectives, players, print_board = None):
 
     if print_board == 'final':
         game.print_result(winner)
-    print('done')
 
     return 0 if winner == None else winner.id
 

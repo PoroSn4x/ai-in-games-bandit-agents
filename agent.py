@@ -16,16 +16,19 @@ class Agent:
     def simulate(self, move, game):
         g = copy.deepcopy(game)
         g.board.place(move, self.id)
-        if(g.board.victory(move, self.id)):
+        if(g.victory(move, self.id)):
             return 1
+        if(g.board.full()):
+            return 0.5
         g.print_board = False
         # replace players by randomagents, opponent goes first
-        g.players = [RandomAgent(1 if (self.id == 2) else 2), RandomAgent(self.id)]
+        g.players = [RandomAgent(1 if (self.id == 2) else 2), RandomAgent(self.id), ]
         winner = g.play()
+        
         # reward 0.5 for draw, 1 for win and 0 for loss
         if winner is None:
             return 0.5
-        elif winner is g.players[1]:
+        elif winner.id is self.id:
             return 1
         return 0
 
@@ -33,7 +36,6 @@ class Agent:
 
     def make_move(self, game):
         i = 0
-
         # available moves
         moves = game.board.free_positions()
         # rewards per arm
@@ -41,24 +43,38 @@ class Agent:
         # tries per arm
         tries = []    
 
-        rewards = np.repeat([0], len(moves))
-        tries = np.repeat([0], len(moves))
+        rewards = np.repeat([0.0], len(moves))
+        tries = np.repeat([0.0], len(moves))
 
+        # epsilon greedy agent
+        eps = 0.75
         # run until time is up
         while i < self.iterations:
-            # randomly explore a move
-            move = np.random.randint(0, len(moves))
+            # epsilon linearly decays from 1 to 0
+            eps = 1 - (i / self.iterations)
+            
+            e =  np.random.random_sample()
+            
+            move = 0
+            if(e < eps):
+                # randomly explore a move
+                move = np.random.randint(0, len(moves))
+            else:
+                # greedily choose a move
+                bestmoves = np.argwhere(rewards == np.amax(rewards)).flatten().tolist()
+                move = np.random.choice(bestmoves)
+                # move = np.argmax(rewards)
+
             result = self.simulate(moves[move], game)
-            rewards[move] += result
+            rewards[move] = (rewards[move] * tries[move] + result) /(tries[move] + 1)
+            #rewards[move] += result
             tries[move] += 1
             i += 1
 
-        # select move with highest expected value
-        for i in range(len(rewards)):
-            if(tries[i] > 0):
-                rewards[i] /= tries[i]
-        bestmove = np.argmax(rewards)
-        return moves[bestmove]
+        bestmove = np.argwhere(rewards == np.amax(rewards)).flatten().tolist()
+        m = np.random.choice(bestmove)
+        
+        return moves[m]
 
 
 

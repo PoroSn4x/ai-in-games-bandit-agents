@@ -20,13 +20,13 @@ python main.py --size 5 --games 100 --iterations 88 shapes1.txt
 test cases 
 ------------------------------------------------
 
-    main.py --games 100 --size 5 --iterations 100 --parallel 8 shapes1.txt >> results.txt   # two in a row
-    main.py --games 100 --size 10 --iterations 100 --parallel 8 shapes1.txt >> results.txt  # two in a row large
-    main.py --games 100 --size 3 --iterations 1000 --parallel 8 shapes2.txt >> results.txt  # tic-tac-toe
-    main.py --games 100 --size 8 --iterations 1000 --parallel 8 shapes3.txt >> results.txt  # plus
-    main.py --games 100 --size 8 --iterations 1000 --parallel 8 shapes4.txt >> results.txt  # circle
-    main.py --games 100 --size 8 --iterations 100 --parallel 8 shapes4.txt >> results.txt   # circle fast
-    main.py --games 100 --size 10 --iterations 1000 --parallel 8 shapes5.txt >> results.txt # disjoint
+python main.py --games 100 --size 5 --iterations 100 --parallel 8 shapes1.txt >> results.txt   # two in a row
+python main.py --games 100 --size 10 --iterations 100 --parallel 8 shapes1.txt >> results.txt  # two in a row large
+python main.py --games 100 --size 3 --iterations 1000 --parallel 8 shapes2.txt >> results.txt  # tic-tac-toe
+python main.py --games 100 --size 8 --iterations 1000 --parallel 8 shapes3.txt >> results.txt  # plus
+python main.py --games 100 --size 8 --iterations 1000 --parallel 8 shapes4.txt >> results.txt  # circle
+python main.py --games 100 --size 8 --iterations 100 --parallel 8 shapes4.txt >> results.txt   # circle fast
+python main.py --games 100 --size 10 --iterations 1000 --parallel 8 shapes5.txt >> results.txt # disjoint
 
 ------------------------------------------------
 grading
@@ -49,7 +49,7 @@ Between 400 and 650, we interpolate linearly:
 
 grade = 6 + 4*(score - 400)/250 
 
-
+585
 
 
 
